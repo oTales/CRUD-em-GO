@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"errors"
 	"github.com/spf13/viper"
 )
 
@@ -23,13 +24,13 @@ type DBConfig struct {
 	DBName   string
 }
 
-func initialization() {
+func init() {
 	viper.SetDefault("api.port", "9000")
 	viper.SetDefault("db.host", "localhost")
 	viper.SetDefault("db.port", "5432")
-	viper.SetDefault("db.user", "tales")
-	viper.SetDefault("db.password", "tales")
-	viper.SetDefault("db.name", "tales")
+	viper.SetDefault("db.user", "user_todo")
+	viper.SetDefault("db.password", "1212")
+	viper.SetDefault("db.name", "api_todo")
 }
 
 func Load() error {
@@ -39,7 +40,8 @@ func Load() error {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+		var configFileNotFoundError viper.ConfigFileNotFoundError
+		if !errors.As(err, &configFileNotFoundError) {
 			return err
 		}
 	}

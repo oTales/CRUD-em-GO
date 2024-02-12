@@ -2,7 +2,7 @@ package models
 
 import "Estudos/db"
 
-func getAll() (todos []Todo, err error) {
+func GetAll() (todos []Todo, err error) {
 	conn, err := db.OpenConnection()
 
 	rows, err := conn.Query(`SELECT * FROM todos`)
